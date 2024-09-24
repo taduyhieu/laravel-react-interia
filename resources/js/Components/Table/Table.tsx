@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
 import get from 'lodash/get';
-import { ChevronRight } from 'lucide-react';
 
 interface TableProps<T> {
   columns: {
@@ -19,10 +18,10 @@ export default function Table<T>({
   getRowDetailsUrl
 }: TableProps<T>) {
   return (
-    <div className="overflow-x-auto bg-white rounded shadow">
-      <table className="w-full whitespace-nowrap">
-        <thead>
-          <tr className="font-bold text-left">
+    <div className="relative bg-white shadow-md sm:rounded-lg">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
             {columns?.map(column => (
               <th
                 key={column.label}
@@ -37,7 +36,7 @@ export default function Table<T>({
         <tbody>
           {/* Empty state */}
           {rows?.length === 0 && (
-            <tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td
                 className="px-6 py-24 border-t text-center"
                 colSpan={columns.length}
@@ -48,17 +47,14 @@ export default function Table<T>({
           )}
           {rows?.map((row, index) => {
             return (
-              <tr
-                key={index}
-                className="hover:bg-gray-100 focus-within:bg-gray-100"
-              >
+              <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 {columns.map(column => {
                   return (
                     <td key={column.name} className="border-t">
                       <Link
                         tabIndex={-1}
                         href={getRowDetailsUrl?.(row) as string}
-                        className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                        className="flex items-center px-4 py-4 focus:text-indigo focus:outline-none"
                       >
                         {column.renderCell?.(row) ??
                           get(row, column.name) ??
@@ -67,14 +63,6 @@ export default function Table<T>({
                     </td>
                   );
                 })}
-                <td className="w-px border-t">
-                  <Link
-                    href={getRowDetailsUrl?.(row)!}
-                    className="flex items-center px-4 focus:outline-none"
-                  >
-                    <ChevronRight size={24} className="text-gray-400" />
-                  </Link>
-                </td>
               </tr>
             );
           })}

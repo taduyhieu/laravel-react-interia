@@ -12,6 +12,8 @@ export default function FilterBar() {
     filters: { role?: string; search?: string; trashed?: string };
   }>().props;
 
+  console.log(filters);
+
   const [opened, setOpened] = useState(false);
 
   const [values, setValues] = useState({
