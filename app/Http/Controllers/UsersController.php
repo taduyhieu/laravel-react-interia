@@ -19,7 +19,6 @@ class UsersController extends Controller
 {
     public function index(): Response
     {
-        dd(Auth::user());
         return Inertia::render('Users/Index', [
             'filters' => Request::all('search', 'role', 'trashed'),
             'users' => new UserCollection(
